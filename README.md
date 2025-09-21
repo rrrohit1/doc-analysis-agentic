@@ -15,7 +15,9 @@ An agentic document analysis chatbot powered by Gemini 2.5 Flash-Lite, with PDF 
     ├── config.py         # Configuration utilities
     ├── dummy.py          # Example/experimental code
     ├── memory.py         # Chat memory manager
-    └── prompts.py        # System prompt for Gemini
+    ├── process_pdf.py    # Standalone PDF text extraction script
+    ├── prompts.py        # System prompt for Gemini
+    └── utils.py          # Shared utilities
 ```
 
 ---
@@ -58,14 +60,16 @@ GOOGLE_API_KEY=your_google_api_key_here
 python app.py
 ```
 
-The Gradio web UI will open in your browser.
+The Gradio web UI will open in your browser. Upload a PDF and chat with Gemini 2.5 Flash-Lite.
+
 
 ---
 
 ## Features
 
 - **Chat with Gemini 2.5 Flash-Lite**: Ask questions and get answers powered by Google's latest Gemini model.
-- **PDF Upload**: Optionally upload a PDF; the bot will use its content for context-aware answers.
+- **PDF Upload & Extraction**: Upload a PDF; the app robustly extracts its text for context-aware answers (handles file-like objects, paths, and lists from Gradio uploads).
+- **Standalone PDF Extraction**: Use `src/process_pdf.py` to extract PDF text from the command line.
 - **Chat Memory**: Remembers the last 10 exchanges for more coherent conversations.
 - **Modern Gradio UI**: Clean, interactive chat interface with memory controls.
 - **Clear & Inspect Memory**: Easily clear chat history or check memory usage from the UI.
@@ -99,7 +103,7 @@ The Gradio web UI will open in your browser.
 ## How it Works
 
 1. User sends a message (optionally with a PDF).
-2. The app extracts text from the PDF (if provided).
+2. The app robustly extracts text from the PDF (file-like, path, or list) using PDF extraction function.
 3. The last 10 chat messages are included as context.
 4. A prompt is constructed and sent to Gemini 2.5 Flash-Lite via the Google Generative AI API.
 5. The response is displayed in the chat and stored in memory.
